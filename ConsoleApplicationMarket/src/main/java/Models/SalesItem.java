@@ -1,3 +1,5 @@
+package Models;
+
 public class SalesItem {
     private static int id;
     public final int no;
@@ -14,3 +16,4 @@ public class SalesItem {
         this.amount = amount;
     }
 }
+

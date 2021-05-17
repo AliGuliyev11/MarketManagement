@@ -1,3 +1,5 @@
+package Models;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -28,3 +30,4 @@ public class Sales {
         this.date = LocalDate.now();
     }
 }
+

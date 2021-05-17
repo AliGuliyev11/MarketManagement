@@ -1,3 +1,5 @@
+package Models;
+
 import java.util.Locale;
 
 public class Product {
@@ -22,3 +24,4 @@ public class Product {
 
     }
 }
+

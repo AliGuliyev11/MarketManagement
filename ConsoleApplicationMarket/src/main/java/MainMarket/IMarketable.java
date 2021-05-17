@@ -1,16 +1,30 @@
+package MainMarket;
+
+import Models.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public interface IMarketable {
-    public static final List<Sales> sales=new ArrayList<>();
-    public static final List<Product> product=new ArrayList<>();
-    public static final List<SalesItem> salesItem=new ArrayList<>();
+    public static final List<Sales> sales = new ArrayList<>();
+    public static final List<Product> product = new ArrayList<>();
+    public static final List<SalesItem> salesItem = new ArrayList<>();
+    public static final List<User> user = new ArrayList<>();
+
+    void addUser(User user);
+    void updateUser(String username,String newUsername,Role role,String password);
+    User getUserByUsername(String username);
+    void removeUser(String username);
+    Map<String,User> getUserList();
 
     Map<String, Sales> getSalesList();
+
     public void RemoveSales(String salesCode);
-    Map<String,Product> getProductList();
+
+    Map<String, Product> getProductList();
+
     List<SalesItem> getSalesItemList();
 
     void addSales(Sales item);
@@ -26,10 +40,14 @@ public interface IMarketable {
     Sales getSalesByNo(String no);
 
     void RemoveProduct(String productCode);
-    void addProduct(Product product);
-    void updateProduct(String productCode,String name, double price, Category category, int amount);
-    List<Product> getProductByCategory(Category category);
-    List<Product> getProductByPrice(double min, double max);
-    List<Product> searchProductByName(String name);
 
+    void addProduct(Product product);
+
+    void updateProduct(String productCode, String name, double price, Category category, int amount);
+
+    List<Product> getProductByCategory(Category category);
+
+    List<Product> getProductByPrice(double min, double max);
+
+    List<Product> searchProductByName(String name);
 }

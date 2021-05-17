@@ -1,3 +1,7 @@
+package MainMarket;
+
+import Models.*;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -6,16 +10,23 @@ public class Market implements IMarketable {
     public static Map<String, Sales> sales;
     public static Map<String, Product> products;
     public static List<SalesItem> salesItems;
+    public static Map<String, User> users;
 
     public Market() {
         sales = new HashMap<>();
         products = new HashMap<>();
         salesItems = new ArrayList<>();
+        users = new HashMap<>();
+    }
+
+    @Override
+    public Map<String, User> getUserList() {
+        return users;
     }
 
     @Override
     public double getSalesItemPrice(List<SalesItem> item) {
-        double prices=item.stream().mapToDouble(value -> value.product.price*value.amount).sum();
+        double prices = item.stream().mapToDouble(value -> value.product.price * value.amount).sum();
         return prices;
     }
 
@@ -27,6 +38,31 @@ public class Market implements IMarketable {
     @Override
     public void RemoveSales(String salesCode) {
         sales.remove(salesCode);
+    }
+
+    @Override
+    public void addUser(User user) {
+        users.put(user.username, user);
+    }
+
+    @Override
+    public void updateUser(String username, String newUsername, Role role, String password) {
+        User user = users.get(username);
+        user.role = role;
+        user.username = newUsername;
+        user.password = password;
+        addUser(user);
+        removeUser(username);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return users.get(username);
+    }
+
+    @Override
+    public void removeUser(String username) {
+        users.remove(username);
     }
 
     @Override
@@ -46,7 +82,7 @@ public class Market implements IMarketable {
 
     @Override
     public void addSales(Sales item) {
-        sales.put(item.no,item);
+        sales.put(item.no, item);
     }
 
     @Override
@@ -54,7 +90,7 @@ public class Market implements IMarketable {
         List<Sales> salesArrayList = new ArrayList<>();
 
         for (Map.Entry<String, Sales> item : sales.entrySet()) {
-            if ((item.getValue().date.isAfter(from) ||item.getValue().date.equals(from)) && (item.getValue().date.isBefore(to) || item.getValue().date.equals(to))) {
+            if ((item.getValue().date.isAfter(from) || item.getValue().date.equals(from)) && (item.getValue().date.isBefore(to) || item.getValue().date.equals(to))) {
                 salesArrayList.add(item.getValue());
             }
         }
@@ -156,7 +192,7 @@ public class Market implements IMarketable {
         return false;
     }
 
-    public boolean salesItemHaveOrNot(List<SalesItem> items,String name) {
+    public boolean salesItemHaveOrNot(List<SalesItem> items, String name) {
         for (var item : items) {
             if (item.product.name.toUpperCase().equals(name.toUpperCase())) {
                 return true;
@@ -170,6 +206,7 @@ public class Market implements IMarketable {
         Product product = products.get(productCode);
         product.amount = product.amount - amount;
     }
+
     public void incrementAmountOfTheProduct(String productCode, int amount) {
         Product product = products.get(productCode);
         product.amount = product.amount + amount;
